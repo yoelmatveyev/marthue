@@ -1,4 +1,5 @@
 #::=Yoel Matveyev 2020
+#::=Converting stars into Roman numerals
 #::=The stars must be surrounded by | e.g. |****|
 ||::=~NULL
 |*::=|>*
