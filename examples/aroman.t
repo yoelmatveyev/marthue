@@ -1,4 +1,4 @@
-#::=YoeL MatveyeV 2020
+#::=Yoel Matveyev 2020
 #::=Additive Roman numerals represented by stars, e.g. ******
 
 *::=I
