@@ -1,3 +1,5 @@
+;; An example of Lispy Thue
+
 (defparameter aroman.t
 #S(THUE-PROGRAM
    :RULES #(("#" "YoeL MatveyeV 2020")
