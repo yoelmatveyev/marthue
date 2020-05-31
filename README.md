@@ -4,8 +4,8 @@ Common Lisp interpreter for the esoteric Thue language meant to be used interrac
 
 An example of usage:
 
->  (load "thue.lisp")
->  (defvar roman (thue-load "lisp/thue/roman.t"))
->  (thue-run-pr roman)
+CL>  (load "thue.lisp")
+CL>  (defvar roman (thue-load "lisp/thue/roman.t"))
+CL>  (thue-run-pr roman)
 "MDCCIII"
->
+CL>
