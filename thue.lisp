@@ -1,8 +1,12 @@
+;; Thue programs are stored as Lisp structures
+
 (defstruct thue-program
   rules
   line)
 
 (declaim (inline search-random thue-step thue-run thue-run-rp))
+
+;; Find a random occurance of a subline an a line
 
 (defun search-random (l1 l2)
   (declare (optimize (speed 3) (safety 0)(debug 0)))
@@ -15,6 +19,8 @@
 	  (if a
 	      (nth (random (length a)) a)
 	      nil)))
+
+;; Run a program step, useful for debugging.
 
 (defun thue-step (rules line)
   (declare (optimize (speed 3) (safety 0)(debug 0)))
@@ -43,6 +49,8 @@
 	  (setf line (concatenate 'string s1 p s2)))
 	nil)))
 
+;; Run a program as a set of rules and the line separately, thus eliminating the need of rewriting the program files. 
+
 (defun thue-run (rules line &optional (steps -2))
   (let (newline)
     (loop while (/= steps -1) do
@@ -52,10 +60,14 @@
 	 (unless line (return)))
     newline))
 
+;; Run a program as a THUE-PROGRAM structure
+
 (defun thue-run-pr (pr &optional (steps -2))
   (thue-run (thue-program-rules pr)
 	    (thue-program-line pr)
 	    steps))
+
+;; Load a traditional Thue program as a THUE-PROGRAM structure
 
 (defun thue-load (file)
   (let (p r l)
