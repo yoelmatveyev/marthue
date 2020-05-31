@@ -1,4 +1,4 @@
-# Thue
+# Lispy Thue
 
 Common Lisp interpreter for the esoteric Thue language meant to be used interractively in REPL.
 
