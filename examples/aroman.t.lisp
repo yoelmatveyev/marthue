@@ -2,7 +2,7 @@
 
 (defparameter aroman.t
 #S(THUE-PROGRAM
-   :RULES #(("#" "YoeL MatveyeV 2020")
+   :RULES #(("#" "Yoel Matveyev 2020")
             ("#" "Additive Roman numerals represented by stars, e.g. ******")
             ("*" "I") ("IIIII" "V") ("VV" "X") ("XXXXX" "L") ("LL" "C")
             ("CCCCC" "D") ("DD" "M") ("IV" "VI") ("IX" "XI") ("VX" "XV")
