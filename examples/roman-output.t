@@ -1,7 +1,7 @@
 #::=Yoel matveyev 2020
 #::=Roman numerals represented ny stars, e.g. |>****|
 
-|>|::=NULLA
+|>|::=
 *::=i
 iiiii::=v
 vv::=x
