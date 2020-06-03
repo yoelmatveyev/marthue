@@ -36,7 +36,6 @@ CL-MARTHUE> (marthue-program-counter roman-markov)
 
 CL-MARTHUE> (marthue-run roman-markov)
 
-
 Program was terminated. Reset it?
 
 (y or n) y
@@ -45,4 +44,16 @@ Try to run it again!
 
 "******************"
 
-CL-MARTHUE>
+CL-MARTHUE> (load "thue.lisp")
+
+T
+
+CL-MARTHUE> (defvar thue-dec (thue-load "lisp/thue/dec.t"))
+
+THUE-DEC
+
+CL-MARTHUE> (thue-run-pr thue-dec)
+
+"111111111111"
+
+CL-MARTHUE> 
