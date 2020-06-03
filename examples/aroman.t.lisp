@@ -1,4 +1,4 @@
-;; An example of Lispy Thue
+;; An example of Lispy Thue for thue.lisp
 
 (defparameter aroman.t
 #S(THUE-PROGRAM
