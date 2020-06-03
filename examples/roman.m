@@ -1,0 +1,14 @@
+*->I
+IIIII->V
+IIII->IV
+VV->X
+VIV->IX
+XXXXX->L
+XXXX->XL
+LL->C
+LXL->XC
+CCCCC->D
+CCCC->CD
+DD->M
+DCD->CM
+******************
