@@ -1,6 +1,6 @@
 # Marthue
 
-This virtual machine impelements a superset of both semi-Thue systems and Markov algorithms extended by input/output, termination and conditional jump mechainisms. Programs are organized as lists of blocks. Each block may be either a sequental Markov-style or a non-deterministic semi-Thue-like algorithm. Normally, termination of each block passes the resulting string to the next one. Conditionals jump to labeled blocks may overwrite the normal order of the operation and serve as subroutines.
+This virtual machine impelements a superset of both semi-Thue systems and Markov algorithms extended by input/output, termination and conditional jump mechainisms. Programs are organized as lists of blocks. Each block may be either a sequental Markov-style or a non-deterministic semi-Thue-like algorithm. Normally, termination of each block passes the resulting string to the next one. Conditional jump to labeled blocks may overwrite the normal order of the operation and serve as subroutines.
 
 An Lispy interpreter of the Thue language, **thue.lisp**, which partly inspired this project, is added for historical purposes, although the Marthue engine includes its capabilities.
 
