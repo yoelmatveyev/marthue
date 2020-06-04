@@ -88,13 +88,13 @@ Unless overwritten by the programmer’s identical labels, the following 5 label
 
 "."  - terminate the entire program
 
-"," - terminated the current block
+"," - finish the current block
 
 "?" - jump to a random block
 
 "+" - jump to the next block or terminate the program if the current block is the last one
 
-"-" - jump to the previous block or ignore, if the current block is the first.
+"-" - jump to the previous block or ignore, if the current block is the first one.
 
 Any attempt to jump to the same block as the current one or to a non-existent block is ignored. If several blocks are identically labeled, the program jumps randomly to one of them.
 
