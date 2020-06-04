@@ -8,6 +8,8 @@ A collection of Thue and Markov programs (mostly not written by me) is added to 
 
 The system is meant interractively in REPL.
 
+For more information read **INFO.md**
+
 An example of usage:
 
 CL-MARTHUE> (defvar roman-thue (load-thue-program "examples/roman.t"))
