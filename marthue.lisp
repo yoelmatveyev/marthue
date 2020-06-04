@@ -74,9 +74,9 @@
 	    s2 (subseq line (+ n (length (car rule)))))
       (if (member :O rule)
 	  (progn (format t "~a" (cadr rule))
-		 (setf p "")))
-      (if (member :I rule)
-	      (setf p (concatenate 'string (read-line))) (setf p (cadr rule)))
+		 (setf p ""))
+	  (if (member :I rule)
+	      (setf p (concatenate 'string (read-line))) (setf p (cadr rule))))
       (setf line (concatenate 'string s1 p s2)))
     (if debug (progn
 		(format t "~%Dir:~a Random:~a Rule:~a" d rand c)
@@ -149,6 +149,10 @@
 	       (push block (marthue-program-stack pr))))
 	(progn
 	  (when (equal status ".") (setf newblock blength))
+	  (when (equal status ",")
+	    (if (not (marthue-program-stack pr))
+		(incf newblock)
+		(setf newblock (pop (marthue-program-stack pr)))))
 	  (when (equal status "?")
 	    (setf newblock (random blength))
 		  (push newblock (marthue-program-stack pr)))
