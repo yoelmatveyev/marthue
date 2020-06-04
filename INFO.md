@@ -144,7 +144,7 @@ Examples:
 
 # Programming
 
-Here is a simple example of a series of Markov-like programs, which ask for a string of binary digits and attach dilimiters to it, followed by a Thue program for binary decrement, followed by another Markov-like block that prints out the result:
+Here is a simple example of a series of Markov-like programs, which ask for a string of binary digits and attach delimiters to it, followed by a Thue program for binary decrement, followed by another Markov-like block that prints out the result:
 
 #(
 
