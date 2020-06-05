@@ -185,3 +185,19 @@ Here is a simple example of a series of Markov-like programs, which ask for a st
 #(("1" "1" :O)
 
 ("0" "0" :O))))
+
+# Running a program
+
+Thue and Markov programs may be loaded by the functions (load-thue-program) and (load-markov-program). To run the above given example, it's recomended to load it first to a variable:
+
+CL-MARTHUE> (defparameter program1 (load-marthue-program 
+#(((:M) #(("" "Input a binary number:" "," :O)))
+((:M) #(("" "" "," :I)))
+((:M) #(("" "_" ",")))
+((:M :B) #(("" "_" ",")))
+((:T)#(("0_" "0--") ("1_" "0") ("10--" "01") ("00--" "0--1") ("_1--" "@")("_0--" "1") ("_0" "")))
+((:M) #(("1" "1" :O) ("0" "0" :O))))))
+
+; Run it:
+
+CL-MARTHUE> (marthue-run program1)
