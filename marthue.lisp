@@ -273,13 +273,15 @@
 (defun load-marthue-program (prg)
   (let
       ((st (make-marthue-program))
-       code)
+       code line)
     (if (stringp prg)
-	(with-open-file (stream prg)
-	  (setf code (loop for l = (read-line stream nil)
-		 while l
-		     collect l)))
+	(with-open-file (in prg)
+	  (setf code (loop for x = (read in nil)
+			until (null x) collect x)
+		line (cadr code)
+		code (car code)))
 	(setf code prg))
-    (setf (marthue-program-code st) code)
+    (setf (marthue-program-code st) code
+	  (marthue-program-line st) line)
     (marthue-reset st)
     st))
