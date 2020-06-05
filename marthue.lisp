@@ -153,6 +153,9 @@
 	    (if (not (marthue-program-stack pr))
 		(incf newblock)
 		(setf newblock (pop (marthue-program-stack pr)))))
+	  (when (equal status "^")
+	    (setf newblock 0
+		  (marthue-program-stack pr) nil))
 	  (when (equal status "?")
 	    (setf newblock (random blength))
 		  (push newblock (marthue-program-stack pr)))
