@@ -1,4 +1,4 @@
-;; Stars to Roman numerals
+;; Convert stars to Roman numerals
 
 #(((:M) #(("" "Input a series of stars like ****....
 " "," :O)))
@@ -18,6 +18,6 @@
 Try again? (y/n)
 " :O)("" "_" ",")))
 
-; Going back, if the answers is "y"
+; Going back, if the answer is "y"
 
 ((:M)#(("_" "" :I)("y" "" "^")("n" "" ","))))
