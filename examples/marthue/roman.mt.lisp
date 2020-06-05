@@ -1,6 +1,6 @@
-;; Convert stars to Roman numerals
+;; Convert series of * to Roman numerals
 
-#(((:M) #(("" "Input a series of stars like ****....
+#(((:M) #(("" "Input series of * like **** ****** *******....
 " "," :O)))
 ((:M) #(("" "_" "," :I)))
 ((:M) #(("*" "I") ("IIIII" "V") ("IIII" "IV") ("VV" "X") ("VIV" "IX")
@@ -10,14 +10,14 @@
 ; Print the result
 
 ((:M) #(("_M" "_*M") ("_D" "_*D") ("_C" "_*C") ("_L" "_*L") ("_X" "_*X")
-        ("_V" "_*V") ("_I" "_*I") ("*M" "M" :O)
+        ("_V" "_*V") ("_I" "_*I") ("_ " "_* ")("*M" "M" :O)
         ("*D" "D" :O) ("*C" "C" :O) ("*L" "L" :O) ("*X" "X" :O)
-        ("*V" "V" :O) ("*I" "I" :O)))
+        ("*V" "V" :O) ("*I" "I" :O) ("* " " " :O) (" " "")))
 
 ((:M)#(("_" "
 Try again? (y/n)
 " :O)("" "_" ",")))
 
-; Going back, if the answer is "y"
+; Going back, if the answers is "y"
 
-((:M)#(("_" "" :I)("y" "" "^")("n" "" ","))))
+((:M)#(("_" "" :I) ("y" "" "^") ("n" "" ","))))
