@@ -267,5 +267,19 @@
      (marthue-program-line res) l)
      (marthue-reset res)
     res))
-    
-		    
+
+;; Load a Marthue program as code or file
+
+(defun load-marthue-program (prg)
+  (let
+      ((st (make-marthue-program))
+       code)
+    (if (stringp prg)
+	(with-open-file (stream prg)
+	  (setf code (loop for l = (read-line stream nil)
+		 while l
+		     collect l)))
+	(setf code prg))
+    (setf (marthue-program-code st) code)
+    (marthue-reset st)
+    st))
