@@ -50,7 +50,7 @@ CL-MARTHUE> (load "thue.lisp")
 
 T
 
-CL-MARTHUE> (defvar thue-dec (thue-load "lisp/thue/dec.t"))
+CL-MARTHUE> (defvar thue-dec (thue-load "examples/thue/dec.t"))
 
 THUE-DEC
 
