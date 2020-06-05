@@ -84,11 +84,13 @@ For output, the matching substring is removed and the replacing string is printe
 
 Each block may be labeled and each rule, if applicable, may result after its application in a jump to another block. The block, from which the jump was made, is recorded in a stack. When a block’s operation terminates and the stack is not empty, the computation returns to the previous block. This feature allows to implement subroutine-like nested procedures of arbitrary complexity.
 
-Unless overwritten by the programmer’s identical labels, the following 5 labels have a special meaning:
+Unless overwritten by the programmer’s identical labels, the following 6 labels have a special meaning:
 
 "."  - terminate the entire program
 
 "," - finish the current block
+
+"^" - empty the stack and return to the beginning of the entire program
 
 "?" - jump to a random block
 
