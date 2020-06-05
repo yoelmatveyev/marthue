@@ -147,56 +147,27 @@ Examples:
 Here is a simple example of a series of Markov-like programs, which ask for a string of binary digits and attach delimiters to it, followed by a Thue program for binary decrement, followed by another Markov-like block that prints out the result:
 
 #(
+((:M) #(("" "Input a binary number:" "," :O)))
 
-((:M) 
+((:M) #(("" "" "," :I)))
 
-#(("" "Input a binary number:" "," :O))) 
+((:M) #(("" "_" ",")))
 
-((:M)
+((:M :B) #(("" "_" ",")))
 
-#(("" "" "," :I)))
+((:T) #(("0_" "0--") ("1_" "0") ("10--" "01") ("00--" "0--1") ("_1--" "@")("_0--" "1") ("_0" "")))
 
-((:M)
-
-#(("" "_" ",")))
-
-((:M :B)
-
-#(("" "_" ",")))
-
-((:T)
-
-#(("0_" "0--")
-
-("1_" "0")
-
-("10--" "01")
-
-("00--" "0--1")
-
-("_1--" "@")
-
-("_0--" "1")
-
-("_0" "")))
-
-((:M)
-
-#(("1" "1" :O)
-
-("0" "0" :O))))
+((:M) #(("_1" "_*1")("_0" "_*0")("*1" "1" :O) ("*0" "0" :O)("_" "")))) 
 
 # Running a program
 
 Thue and Markov programs may be loaded by the functions (load-thue-program) and (load-markov-program). To run the above given example, it's recomended to load it first to a variable:
 
 CL-MARTHUE> (defparameter program1 (load-marthue-program 
-#(((:M) #(("" "Input a binary number:" "," :O)))
-((:M) #(("" "" "," :I)))
-((:M) #(("" "_" ",")))
-((:M :B) #(("" "_" ",")))
-((:T)#(("0_" "0--") ("1_" "0") ("10--" "01") ("00--" "0--1") ("_1--" "@")("_0--" "1") ("_0" "")))
-((:M) #(("1" "1" :O) ("0" "0" :O))))))
+ #(((:M) #(("" "Input a binary number:" "," :O))) ((:M) #(("" "" "," :I)))((:M) #(("" "_" ","))) ((:M :B) #(("" "_" ",")))
+ ((:T) #(("0_" "0--") ("1_" "0") ("10--" "01") ("00--" "0--1")("_1--" "@") ("_0--" "1") ("_0" "")))
+ ((:M) #(("_1" "_*1") ("_0" "_*0") ("*1" "1" :O) ("*0" "0" :O) ("_" ""))))
+ ))
 
 ; Run it:
 
