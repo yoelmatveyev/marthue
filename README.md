@@ -39,28 +39,3 @@ CL-MARTHUE>  (defvar roman-marthue (load-marthue-program "examples/marthue/roman
 ROMAN-MARTHUE
 
 CL-MARTHUE> (marthue-run roman-marthue)
-
-Input series of * like **** ****** *******
-
-********* **** *************
-
-IX IV XIII
-
-Try again? (y/n)
-
-y
-Input series of * like **** ****** *******
-
-******************
-
-XVIII
-
-Try again? (y/n)
-
-n
-
-""
-
-CL-MARTHUE>  (marthue-program-counter roman-marthue)
-
-102
