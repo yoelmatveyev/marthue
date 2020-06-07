@@ -82,23 +82,17 @@ Each rule may cause input, output or both. A matching substring may be replaced 
 
 For output, the matching substring is removed and the replacing string is printed out. If a rule is marked for both input and output, the string on the right side is printed out and the matching string is replaced by the user’s input.
 
-Each block may be labeled and each rule, if applicable, may result after its application in a jump to another block. The block, from which the jump was made, is recorded in a stack. When a block’s operation terminates and the stack is not empty, the computation returns to the previous block. This feature allows to implement subroutine-like nested procedures of arbitrary complexity.
+Each block may be labeled. Labels must be non-constant Lisp symbols, such as *a*, *a11*, but not strings, numbers, keys etc.
 
-Unless overwritten by the programmer’s identical labels, the following 6 labels have a special meaning:
+Each rule, if applicable, may call another block after its application as a function. The computation continues from there block by block until an explicit return operator. Function calls are recorded in a stack, allowing nested and recursive function calls.
 
-"."  - terminate the entire program
+An non-constant Lisp symbol following the two strings of the rule causes a call to the matching labeled block. The :R key reverses its meaning and uses the symbol as a return address, similar to the Lisp operator RETURN-FROM. The :R key without an address returns from the last call, similar to the Lisp operator RETURN.
 
-"," - finish the current block
+Any attempt to call the current block or return to it is ignored. Markov and Thue algorithms are self-recursive in themselves. Recursion between the algorithms is possible, e.g. calling B from A and C from B until some rule invokes a return back to A.
 
-"^" - empty the stack and return to the beginning of the entire program
+If several blocks are identically labeled, the function call chooses ramdomly one of them.
 
-"?" - jump to a random block
-
-"+" - jump to the next block or terminate the program if the current block is the last one
-
-"-" - jump to the previous block or ignore, if the current block is the first one.
-
-Any attempt to jump to the same block as the current one or to a non-existent block is ignored. If several blocks are identically labeled, the program jumps randomly to one of them.
+Importantly, calling a non-existent fuction or return without a corresponding former call causes the entire program to halt.
 
 # Syntax
 
@@ -136,40 +130,52 @@ The rules array consists of rule lists, which contain the following:
 
 :I, :O or both for input and output.
 
+:T for terminating the computation of the current block.
+
+:R for using a label as return
+
+:C or whatever, just for the sake on convenience and readabilty, may denote a function call, although the presence of the label itself is sufficient.
+
 Examples:
 
 ("_cat_" "Smokey" "Thue_cat" :F :O) means searching forward for "_cat_", removing it, printing out "Smokey" and jumping to a block named "Thue_cat".
 
 ("F" "apples" :F :B)  means randomly searching for "F" and replacing it by "apples"
 
-("" "" "Uncond_blk") - unconditional jump to "Uncond_blk"
+("" "" Uncond_blk) - unconditional jump to Uncond_blk.
 
 # Programming
 
 Here is a simple example of a series of Markov-like programs, which ask for a string of binary digits and attach delimiters to it, followed by a Thue program for binary decrement, followed by another Markov-like block that prints out the result:
 
 #(
-((:M) #(("" "Input a binary number:" "," :O)))
 
-((:M) #(("" "" "," :I)))
+((:M) #(("" "Input a binary number:" :O :T)))
 
-((:M) #(("" "_" ",")))
+((:M) #(("" "" :I :T)))
 
-((:M :B) #(("" "_" ",")))
+((:M) #(("" "_" :T)))
+
+((:M :B) #(("" "_" :T)))
 
 ((:T) #(("0_" "0--") ("1_" "0") ("10--" "01") ("00--" "0--1") ("_1--" "@")("_0--" "1") ("_0" "")))
 
-((:M) #(("_1" "_*1")("_0" "_*0")("*1" "1" :O) ("*0" "0" :O)("_" "")))) 
+((:M) #(("_1" "_*1")("_0" "_*0")("*1" "1" :O) ("*0" "0" :O)("_" ""))))
+
 
 # Running a program
 
-Thue and Markov programs may be loaded by the functions (load-thue-program) and (load-markov-program). To run the above given example, it's recomended to load it first to a variable:
+Thue and Markov programs may be loaded by the functions (load-thue-program) and (load-markov-program). Marthue program by may be loaded directly from REPL or from a file by (load-marthue-program). 
+
+To run the above given example, it's recomended to load it first to a variable:
 
 CL-MARTHUE> (defparameter program1 (load-marthue-program 
- #(((:M) #(("" "Input a binary number:" "," :O))) ((:M) #(("" "" "," :I)))((:M) #(("" "_" ","))) ((:M :B) #(("" "_" ",")))
- ((:T) #(("0_" "0--") ("1_" "0") ("10--" "01") ("00--" "0--1")("_1--" "@") ("_0--" "1") ("_0" "")))
- ((:M) #(("_1" "_*1") ("_0" "_*0") ("*1" "1" :O) ("*0" "0" :O) ("_" ""))))
- ))
+#(((:M) #(("" "Input a binary number:" :O :T)))
+((:M) #(("" "" :I :T)))
+((:M) #(("" "_" :T)))
+((:M :B) #(("" "_" :T)))
+((:T) #(("0_" "0--") ("1_" "0") ("10--" "01") ("00--" "0--1") ("_1--" "@")("_0--" "1") ("_0" "")))
+((:M) #(("_1" "_*1")("_0" "_*0")("*1" "1" :O) ("*0" "0" :O)("_" ""))))))
 
 ; Run it:
 
