@@ -1,8 +1,8 @@
-; Input a binary number, decrement it and print out the result
+;; Input a binary number, decrement it and print out the result
 
-#(((:M) #(("" "Input a binary number:" "," :O)))
-((:M) #(("" "" "," :I)))
-((:M) #(("" "_" ",")))
-((:M :B) #(("" "_" ",")))
+#(((:M) #(("" "Input a binary number:" :O :T)))
+((:M) #(("" "" :I :T)))
+((:M) #(("" "_" :T)))
+((:M :B) #(("" "_" :T)))
 ((:T) #(("0_" "0--") ("1_" "0") ("10--" "01") ("00--" "0--1") ("_1--" "@")("_0--" "1") ("_0" "")))
 ((:M) #(("_1" "_*1")("_0" "_*0")("*1" "1" :O) ("*0" "0" :O)("_" ""))))

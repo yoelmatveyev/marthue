@@ -1,11 +1,11 @@
 ;; Convert series of * to Roman numerals
 
-#(((:M) #(("" "Input series of * like **** ****** *******....
-" "," :O)))
-((:M) #(("" "_" "," :I)))
+#(((:M a) #(("" "Input series of * like **** ****** *******....
+" :O :C b)))
+((:M b) #(("" "_" :I :T)))
 ((:M) #(("*" "I") ("IIIII" "V") ("IIII" "IV") ("VV" "X") ("VIV" "IX")
         ("XXXXX" "L") ("XXXX" "XL") ("LL" "C") ("LXL" "XC") ("CCCCC" "D")
-        ("CCCC" "CD") ("DD" "M") ("DCD" "CM") ("" "_" ",")))
+        ("CCCC" "CD") ("DD" "M") ("DCD" "CM") ("" "_" :T)))
 
 ; Print the result
 
@@ -16,8 +16,8 @@
 
 ((:M)#(("_" "
 Try again? (y/n)
-" :O)("" "_" ",")))
+" :O)("" "_" :T)))
 
 ; Going back, if the answers is "y"
 
-((:M)#(("_" "" :I) ("y" "" "^") ("n" "" ","))))
+((:M)#(("_" "" :I) ("y" "" :R a) ("n" "" :R end))))
