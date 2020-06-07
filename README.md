@@ -1,6 +1,6 @@
 # Marthue
 
-This virtual machine impelements a superset of both semi-Thue systems and Markov algorithms extended by input/output, termination and conditional jump mechanisms. A programs is organized as a list or array of rule blocks. Each block may be either a sequental Markov-style or a non-deterministic semi-Thue-like algorithm. Normally, termination of each block passes the resulting string to the next one. Conditional jumps to labeled blocks may overwrite the normal order of the operation and serve as subroutines.
+This virtual machine impelements a superset of both semi-Thue systems and Markov algorithms extended by input/output, termination and conditional jump mechanisms. A program is organized as a list or array of rule blocks. Each block may be either a sequental Markov-style or a non-deterministic Thue-like algorithm. Normally, termination of each block passes the resulting string to the next one. Calling labeled blocks as fuctions and returning from the fuction calls overwrites the normal order of the operation and adds a fuctional programming flavor to the machine.
 
 A Lispy interpreter of the Thue language, **thue.lisp**, which partly inspired this project, is added for historical purposes, although the Marthue engine includes all its capabilities.
 
@@ -12,7 +12,13 @@ For more information read **INFO.md**
 
 An example of usage:
 
-CL-MARTHUE> (defvar roman-thue (load-thue-program "examples/roman.t"))
+Load the system:
+
+CL-USER> (asdf:operate 'asdf:load-op 'marthue)
+
+Load three versions of the Roman number converter:
+
+CL-MARTHUE> (defvar roman-thue (load-thue-program "examples/thue/roman.t"))
 
 ROMAN-THUE
 
@@ -20,7 +26,7 @@ CL-MARTHUE> (marthue-run roman-thue)
 
 "MDCCIII"
 
-CL-MARTHUE> (defvar roman-markov (load-markov-program "examples/roman.m"))
+CL-MARTHUE> (defvar roman-markov (load-markov-program "examples/markov/roman.m"))
 
 ROMAN-MARKOV
 
@@ -28,34 +34,33 @@ CL-MARTHUE> (marthue-run roman-markov)
 
 "XVIII"
 
-CL-MARTHUE> (marthue-program-counter roman-thue)
+CL-MARTHUE>  (defvar roman-marthue (load-marthue-program "examples/marthue/roman.mt.lisp"))
 
-10687
+ROMAN-MARTHUE
 
-CL-MARTHUE> (marthue-program-counter roman-markov)
+CL-MARTHUE> (marthue-run roman-marthue)
 
-23
+Input series of * like **** ****** *******
 
-CL-MARTHUE> (marthue-run roman-markov)
+********* **** *************
 
-Program was terminated. Reset it?
+IX IV XIII
 
-(y or n) y
+Try again? (y/n)
 
-Try to run it again!
+y
+Input series of * like **** ****** *******
 
-"******************"
+******************
 
-CL-MARTHUE> (load "thue.lisp")
+XVIII
 
-T
+Try again? (y/n)
 
-CL-MARTHUE> (defvar thue-dec (thue-load "examples/thue/dec.t"))
+n
 
-THUE-DEC
+""
 
-CL-MARTHUE> (thue-run-pr thue-dec)
+CL-MARTHUE>  (marthue-program-counter roman-marthue)
 
-"111111111111"
-
-CL-MARTHUE> 
+102
