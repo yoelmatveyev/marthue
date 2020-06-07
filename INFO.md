@@ -130,7 +130,7 @@ The rules array consists of rule lists, which contain the following:
 
 :I, :O or both for input and output.
 
-:T for terminating the computation of the current block.
+:T for terminating the computation of the current block (takes precendence over labels and :R, if one tries to mix them)
 
 :R for using a label as return
 
