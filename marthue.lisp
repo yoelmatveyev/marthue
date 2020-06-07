@@ -82,8 +82,13 @@
 		(format t "~%Dir:~a Random:~a Rule:~a" d rand c)
 		(print rule)
 		(format t "~%~a~%" line)))
-    (setf s (caddr rule))
-    (if (and n (stringp s))
+    (setf s
+	  (if (find :T rule) T
+	  (let ((c l))
+	      (setf c (if (find :R rule) t)
+		    l (find-if-not #'constantp rule))
+	      (if (or c l) (list c l))))) 
+    (if (and n s)
 	(setf v s)
 	(setf v (if n nil t)))
     (values line v c)))
@@ -93,7 +98,7 @@
 (defun block-mode (block)
   (if (member :T (car block)) t))
 
-;; What's the default search diection of the block?
+;; What's the default search direction of the block?
 
 (defun block-dir (block)
   (let* ((a (if (block-mode block) 0 1))
@@ -136,36 +141,39 @@
 	 (blength (length (marthue-program-code pr)))
 	 lbl)
     (if (eq status t)
-	(if (not (marthue-program-stack pr))
-	    (incf newblock)
-	    (setf newblock (pop (marthue-program-stack pr))))
-	(loop for x from 0 to (1- blength) do
-	 (if (find status (car (elt (marthue-program-code pr) x)) :test #'equal)
-	     (push x lbl))))
-    (if lbl
-	(progn
-	  (setf newblock (elt lbl (random (length lbl))))
-	  (if (/= block newblock) 
-	       (push block (marthue-program-stack pr))))
-	(progn
-	  (when (equal status ".") (setf newblock blength))
-	  (when (equal status ",")
-	    (if (not (marthue-program-stack pr))
-		(incf newblock)
-		(setf newblock (pop (marthue-program-stack pr)))))
-	  (when (equal status "^")
-	    (setf newblock 0
-		  (marthue-program-stack pr) nil))
-	  (when (equal status "?")
-	    (setf newblock (random blength))
-		  (push newblock (marthue-program-stack pr)))
-	  (when (equal status "-")
-	    (if (plusp block)
-		(decf newblock)
-		(push newblock (marthue-program-stack pr))))
-	  (when (equal status "+")
-	    (incf newblock)
-	    (push newblock (marthue-program-stack pr)))))
+	(incf newblock)
+	(if (car status)
+	    (let (c n (cadr (cadr status)))
+	      (if cadr
+		  (if (marthue-program-stack pr)
+		      (loop for x from 0 to (1- (length (marthue-program-stack pr))) do
+			   (setf n (nth x (marthue-program-stack pr)))
+			   (when (find cadr (car (elt (marthue-program-code pr) n)))
+			     (if (/= n block)
+				 (progn (setf
+					 (marthue-program-stack pr)
+					 (subseq (marthue-program-stack pr) x)
+					 c (car (marthue-program-stack pr))
+					 newblock (if (numberp c) c blength))
+					(pop (marthue-program-stack pr)))
+				 (if (marthue-program-stack pr)
+				 (setf newblock (pop (marthue-program-stack pr)))
+				 (setf newblock blength)))
+			     (return)))
+		      (setf newblock blength))
+		  (if (marthue-program-stack pr)
+		      (setf newblock (pop (marthue-program-stack pr)))
+		      (setf newblock blength))))
+	    (let ((cadr (cadr status)))      
+	      (loop for x from 0 to (1- blength) do
+		   (if (find cadr (car (elt (marthue-program-code pr) x)))
+		       (push x lbl)))
+	      (when lbl
+		(setf newblock (elt lbl (random (length lbl))))
+		(if (/= block newblock) 
+		    (push block (marthue-program-stack pr))))
+	      (unless lbl
+		(setf newblock blength)))))
     (if debug
 	(format t "~%Status change:~a Block:~a Next block:~a Stack:~a~%"
 		status block newblock (marthue-program-stack pr)))
