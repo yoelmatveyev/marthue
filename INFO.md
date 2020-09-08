@@ -90,7 +90,7 @@ An non-constant Lisp symbol following the two strings of the rule causes a call 
 
 Any attempt to call the current block or return to it is ignored. Markov and Thue algorithms are self-recursive in themselves. Recursion between the algorithms is possible, e.g. calling B from A and C from B until some rule invokes a return back to A.
 
-If several blocks are identically labeled, the function call chooses ramdomly one of them.
+If several blocks are identically labeled, the function call chooses randomly one of them.
 
 Importantly, calling a non-existent fuction or return without a corresponding former call causes the entire program to halt.
 
