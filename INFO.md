@@ -142,7 +142,7 @@ Examples:
 
 ("F" "apples" :F :B)  means randomly searching for "F" and replacing it by "apples"
 
-("" "" Uncond_blk) - unconditional jump to Uncond_blk.
+("" "" Uncond_blk) - unconditional function call to Uncond_blk.
 
 # Programming
 
