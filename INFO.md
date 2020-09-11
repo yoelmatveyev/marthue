@@ -124,19 +124,19 @@ The rules array consists of rule lists, which contain the following:
 
 3. Label string (optional). An empty string is a valid string. If written as "", the program would look for blocks labeled also as "".
 
-4. Keys:
+Keys:
 
-:B , :F or both for forward, backward or random search.
+1. :B , :F or both for forward, backward or random search.
 
-:I, :O or both for input and output. When combined, the replacent string is printed and the left-side original string is replaced by the input.
+2. :I, :O or both for input and output. When combined, the replacent string is printed and the left-side original string is replaced by the input.
 
-:T for terminating the computation of the current block and and unconditional jump, if combined with a label.
+3. :T for terminating the computation of the current block and and unconditional jump, if combined with a label.
 
-:R for returning from a function call. When used with a label, if attempts to return to the corresponding block, somewhat similar to Lisp's special operator **return-from**.
+4. :R for returning from a function call. When used with a label, if attempts to return to the corresponding block, somewhat similar to Lisp's special operator **return-from**.
 
-:C or whatever, just for the sake on convenience and readabilty, may denote a function call, although the presence of the label itself is sufficient and is interpeteted by default as a function call.
+5. :C or whatever, just for the sake on convenience and readabilty, may denote a function call, although the presence of the label itself is sufficient and is interpeteted by default as a function call.
 
-The combination of :R and :T is reserved for possible future extensions and is currently interpteted as :R.
+6. The combination of :R and :T is reserved for possible future extensions and is currently interpteted as :R.
 
 Examples:
 
