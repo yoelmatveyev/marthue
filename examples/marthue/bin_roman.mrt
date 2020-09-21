@@ -1,0 +1,57 @@
+;; Convert series of stars to Roman numerals
+
+ a::
+OC b::->Input series of stars like this: ***  ****  *****\n
+ b::
+I::->._
+
+;; Conversion algorithm
+
+::
+*->I
+IIIII->V
+IIII->IV
+VV->X
+VIV->IX
+XXXXX->L
+XXXX->XL
+LL->C
+LXL->XC
+CCCCC->D
+CCCC->CD
+DD->M
+DCD->CM
+->._
+
+;; Printing the result
+
+::
+_M->_*M
+_D->_*D
+_C->_*C
+_L->_*L
+_X->_*X
+_V->_*V
+_I->_*I
+_ ->_*
+O::*M->M
+O::*D->D
+O::*C->C
+O::*L->L
+O::*X->X
+O::*V->V
+O::*I->I
+;; There is a space on the right side below
+O::*-> 
+
+::
+N::_->
+
+::
+O::_->\nTry again? (y/n)
+->._
+
+::
+I::_->
+R a::y->
+R end::n->
