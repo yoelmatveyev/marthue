@@ -171,26 +171,47 @@ Here is a simple example of a series of Markov-like programs, which ask for a st
 The example above as a file written in Mathue format:
 
 ::
+
 ON::->Input a binary number:
+
 ::
+
 IN::->
+
 ::
+
 N::->\_
+
 B::
+
 N::->\_
+
 T::
+
 0\_->0--
+
 1\_->0
+
 10--->01
+
 00--->0--1
+
 \_1--->@
+
 \_0--->1
+
 \_0->
+
 ::
+
 \_1->\_*1
+
 \_0->\_*0
+
 O::*1->1
+
 O::*0->0
+
 \_->
 
 
