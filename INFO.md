@@ -98,7 +98,7 @@ Importantly, calling a non-existent fuction or return without a corresponding fo
 
 While this Marthue implementation contains a loader for both Thue and Markov programs, they are internally converted to Lisp structures containing full information about the program, its original input and its current state, if the user wished to run it step by step or by a certain number of steps. The structure also contains the jump stack and the counter of steps.
 
-As this implementation is written in Common Lisp, Marthue programs should be written in S-expressions. The code of each program is either a list or, preferably, an array of lists. Each list consists of its label list and its list or, preferably, an array of rules. Arrays are preferred as more efficient and economic data structures.
+As this implementation is written in Common Lisp, Marthue programs are internally be written in S-expressions. The code of each program is either a list or, preferably, an array of lists. Each list consists of its label list and its list or, preferably, an array of rules. Arrays are preferred as more efficient and economic data structures.
 
 The syntax of the block’s label list may contain the following:
 
@@ -110,11 +110,13 @@ The syntax of the block’s label list may contain the following:
 
 :B - backward search by default
 
+:X - random search
+
 Both :B and :F mean random search by default
 
-If the label list contains a string, it’s interpreted as its jump label.
+If the label list contains a Lisp symbol, it’s interpreted as its label.
 
-For example,  (:T :B "Thue1")  declares a modified Thue program, which searches for substrings backward by default and is labeled "Thue1".
+For example,  (:T :B Thue1)  declares a modified Thue program, which searches for substrings backward by default and is labeled **Thue1**.
 
 The rules array consists of rule lists, which contain the following:
 
@@ -122,15 +124,15 @@ The rules array consists of rule lists, which contain the following:
 
 2. Replacement substring. If empty, it must be explicitly written as "".
 
-3. Label string (optional). An empty string is a valid string. If written as "", the program would look for blocks labeled also as "".
+3. Label symbol (optional).
 
 Keys:
 
-1. :B , :F or both for forward, backward or random search.
+1. :B , :F or both for forward, backward or random search. Random search can also be denoted by :X.
 
 2. :I, :O or both for input and output. When combined, the replacent string is printed and the left-side original string is replaced by the input.
 
-3. :T for terminating the computation of the current block and and unconditional jump, if combined with a label.
+3. :N ("next") for terminating the computation of the current block and going to the next block. If combined with a label, it means an unconditional jump.
 
 4. :R for returning from a function call. When used with a label, if attempts to return to the corresponding block, somewhat similar to Lisp's special operator **return-from**.
 
@@ -140,51 +142,81 @@ Keys:
 
 Examples:
 
-("_cat_" "Smokey" "Thue_cat" :F :O) means searching forward for "_cat_", removing it, printing out "Smokey" and jumping to a block named "Thue_cat".
+("_cat_" "Smokey" Thue_cat :F :O) means searching forward for "_cat_", removing it, printing out "Smokey" and jumping to a block named "Thue_cat".
 
 ("F" "apples" :F :B)  means randomly searching for "F" and replacing it by "apples"
 
 ("" "" Uncond_blk) - unconditional function call to Uncond_blk.
 
-# Programming
+# Programming in internal format
 
 Here is a simple example of a series of Markov-like programs, which ask for a string of binary digits and attach delimiters to it, followed by a Thue program for binary decrement, followed by another Markov-like block that prints out the result:
 
 #(
 
-((:M) #(("" "Input a binary number:" :O :T)))
+((:M) #(("" "Input a binary number:" :O :N)))
 
-((:M) #(("" "" :I :T)))
+((:M) #(("" "" :I :N)))
 
-((:M) #(("" "\_" :T)))
+((:M) #(("" "\_" :N)))
 
-((:M :B) #(("" "\_" :T)))
+((:M :B) #(("" "\_" :N)))
 
 ((:T) #(("0_" "0--") ("1_" "0") ("10--" "01") ("00--" "0--1") ("\_1--" "@")("\_0--" "1") ("\_0" "")))
 
 ((:M) #(("\_1" "\_*1")("\_0" "\_*0")("*1" "1" :O) ("*0" "0" :O)("\_" ""))))
+
+# Marthue file format
+
+The example above as a file written in Mathue format:
+
+::
+ON::->Input a binary number:
+::
+IN::->
+::
+N::->\_
+B::
+N::->\_
+T::
+0\_->0--
+1\_->0
+10--->01
+00--->0--1
+\_1--->@
+\_0--->1
+\_0->
+::
+\_1->\_*1
+\_0->\_*0
+O::*1->1
+O::*0->0
+\_->
+
 
 
 # Running a program
 
 Thue and Markov programs may be loaded by the functions (load-thue-program) and (load-markov-program). Marthue program by may be loaded directly from REPL or from a file by (load-marthue-program). 
 
-To run the above given example, it's recomended to load it first to a variable:
+To run the above given example in Marthue internal format, it's recomended to load it first to a variable:
 
-CL-MARTHUE> (defparameter program1 (load-marthue-program 
+CL-MARTHUE> (defparameter program1 (load-lisp-marthue 
 #(
 
-((:M) #(("" "Input a binary number:" :O :T)))
+((:M) #(("" "Input a binary number:" :O :N)))
 
-((:M) #(("" "" :I :T)))
+((:M) #(("" "" :I :N)))
 
-((:M) #(("" "\_" :T)))
+((:M) #(("" "\_" :N)))
 
-((:M :B) #(("" "\_" :T)))
+((:M :B) #(("" "\_" :N)))
 
 ((:T) #(("0_" "0--") ("1_" "0") ("10--" "01") ("00--" "0--1") ("\_1--" "@")("\_0--" "1") ("\_0" "")))
 
 ((:M) #(("\_1" "\_*1")("\_0" "\_*0")("*1" "1" :O) ("*0" "0" :O)("\_" ""))))))
+
+To load a file in Marthue format, use the function (load-marthue-program "/FILE_PATH").
 
 ; Run it:
 
