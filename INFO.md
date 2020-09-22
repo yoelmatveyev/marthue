@@ -92,7 +92,7 @@ Any attempt to call the current block or return to it is ignored. Markov and Thu
 
 If several blocks are identically labeled, the function call chooses randomly one of them.
 
-Importantly, calling a non-existent fuction or return without a corresponding former call causes the entire program to halt.
+Importantly, calling a non-existent function or return without a corresponding former call on the stack causes the entire program to halt.
 
 # Syntax
 
@@ -130,15 +130,15 @@ Keys:
 
 1. :B , :F or both for forward, backward or random search. Random search can also be denoted by :X.
 
-2. :I, :O or both for input and output. When combined, the replacent string is printed and the left-side original string is replaced by the input.
+2. :I, :O or both for input and output. When combined, the replacement string is printed and the left-side original string is replaced by the input.
 
 3. :N ("next") for terminating the computation of the current block and going to the next block. If combined with a label, it means an unconditional jump.
 
 4. :R for returning from a function call. When used with a label, if attempts to return to the corresponding block, somewhat similar to Lisp's special operator **return-from**.
 
-5. :C or whatever, just for the sake on convenience and readabilty, may denote a function call, although the presence of the label itself is sufficient and is interpeteted by default as a function call.
+5. :C or whatever, just for the sake on convenience and readability, may denote a function call, although the presence of the label itself is sufficient and is interpreted by default as a function call.
 
-6. The combination of :R and :T is reserved for possible future extensions and is currently interpteted as :R.
+6. The combination of :R and :T is reserved for possible future extensions and is currently interpreted as :R.
 
 Examples:
 
@@ -164,7 +164,7 @@ Here is a simple example of a series of Markov-like programs, which ask for a st
 
 All strings in Marthue program that don't contain "::" or "->" are treated as comments. Additionally, comments may be added after "::" in block description lines.
 
-The "::" indicates either a block description or, when followed by "->", or a rule description with additional functionality. In both cases, the substring before "::" is treated as an opcode, opstionally followed by a label. The opcode is a string made of the same letters as the internal Lisp format. Block termination may be denoted either as N::[original_string]->[new_string] or as [original_string]->.[new_string]. To use "->.", "::", "->" inside the rules, use backslashes. "\n" denotes a newline inside the rule. 
+The "::" indicates either a block description or, when followed by "->", or a rule description with additional functionality. In both cases, the substring before "::" is treated as an opcode, optionally followed by a label. The opcode is a string made of the same letters as the internal Lisp format. Block termination may be denoted either as N::[original_string]->[new_string] or as [original_string]->.[new_string]. To use "->.", "::", "->" inside the rules, use backslashes. "\n" denotes a newline inside the rule. 
 
 The above-described binary decrement as a file written in Mathue format:
 
