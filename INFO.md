@@ -168,27 +168,20 @@ Here is a simple example of a series of Markov-like programs, which ask for a st
 
 # Marthue file format
 
+
+
 The example above as a file written in Mathue format:
 
-::
-
-ON::->Input a binary number:
-
-::
-
-IN::->
-
-::
-
-N::->\_
-
-B::
-
-N::->\_
-
-T::
-
-0\_->0--
+::\
+ON::->Input a binary number:\
+::\
+IN::->\
+::\
+N::->\_\
+B::\
+N::->\_\
+T::\
+0\_->0--\
 
 1\_->0
 
