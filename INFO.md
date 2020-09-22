@@ -195,7 +195,7 @@ O::*0->0\
 
 Thue and Markov programs may be loaded by the functions (load-thue-program) and (load-markov-program). Marthue program by may be loaded directly from REPL or from a file by (load-marthue-program). 
 
-To run the above given example in Marthue internal format, it's recomended to load it first to a variable:
+To run the above given example in Marthue internal format, it's recommended to load it first to a variable:
 
 CL-MARTHUE> (defparameter program1 (load-lisp-marthue\ 
 #(\
