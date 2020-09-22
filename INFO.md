@@ -164,7 +164,7 @@ Here is a simple example of a series of Markov-like programs, which ask for a st
 
 All strings in Marthue program that don't contain "::" or "->" are treated as comments. Additionally, comments may be added after "::" in block description lines.
 
-The "::" indicated either a block description or, when followed by "->", a rule description with additional functionality. In both cases, the substring before "::" is treated as an opcode, opstionally followed by a label. The opcode is a string made of the same letters as the internal Lisp format. Block termination may be denoted either as N::[original_string]->[new_string] or as [original_string]->.[new_string]. To use "->.", "::", "->" insde the rules, use backslashes. "\n" denotes a newline inside the rule. 
+The "::" indicates either a block description or, when followed by "->", or a rule description with additional functionality. In both cases, the substring before "::" is treated as an opcode, opstionally followed by a label. The opcode is a string made of the same letters as the internal Lisp format. Block termination may be denoted either as N::[original_string]->[new_string] or as [original_string]->.[new_string]. To use "->.", "::", "->" insde the rules, use backslashes. "\n" denotes a newline inside the rule. 
 
 The above-described binary decrement as a file written in Mathue format:
 
