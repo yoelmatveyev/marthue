@@ -152,62 +152,44 @@ Examples:
 
 Here is a simple example of a series of Markov-like programs, which ask for a string of binary digits and attach delimiters to it, followed by a Thue program for binary decrement, followed by another Markov-like block that prints out the result:
 
-#(
-
-((:M) #(("" "Input a binary number:" :O :N)))
-
-((:M) #(("" "" :I :N)))
-
-((:M) #(("" "\_" :N)))
-
-((:M :B) #(("" "\_" :N)))
-
-((:T) #(("0_" "0--") ("1_" "0") ("10--" "01") ("00--" "0--1") ("\_1--" "@")("\_0--" "1") ("\_0" "")))
-
-((:M) #(("\_1" "\_*1")("\_0" "\_*0")("*1" "1" :O) ("*0" "0" :O)("\_" ""))))
+#(\
+((:M) #(("" "Input a binary number:" :O :N)))\
+((:M) #(("" "" :I :N)))\
+((:M) #(("" "\_" :N)))\
+((:M :B) #(("" "\_" :N)))\
+((:T) #(("0_" "0--") ("1_" "0") ("10--" "01") ("00--" "0--1") ("\_1--" "@")("\_0--" "1") ("\_0" "")))\
+((:M) #(("\_1" "\_*1")("\_0" "\_*0")("*1" "1" :O) ("*0" "0" :O)("\_" ""))))\
 
 # Marthue file format
 
+All strings in Marthue program that don't contain "::" or "->" are treated as comments. Additionally, comments may be added after "::" in block description lines.
 
+The "::" indicated either a block description or, when followed by "->", a rule description with additional functionality. In both cases, the substring before "::" is treated as an opcode, opstionally followed by a label. The opcode is a string made of the same letters as the internal Lisp format. Block termination may be denoted either as N::[original_string]->[new_string] or as [original_string]->.[new_string]. To use "->.", "::", "->" insde the rules, use backslashes. "\n" denotes a newline inside the rule. 
 
-The example above as a file written in Mathue format:
+The above-described binary decrement as a file written in Mathue format:
 
-::\
+:: Binary decrement\
 ON::->Input a binary number:\
-::\
+:: Input\
 IN::->\
 ::\
 N::->\_\
 B::\
 N::->\_\
-T::\
+T:: Thue algorithm for decrement\
 0\_->0--\
-
-1\_->0
-
-10--->01
-
-00--->0--1
-
-\_1--->@
-
-\_0--->1
-
-\_0->
-
-::
-
-\_1->\_*1
-
-\_0->\_*0
-
-O::*1->1
-
-O::*0->0
-
-\_->
-
-
+1\_->0\
+10--->01\
+00--->0--1\
+\_1--->@\
+\_0--->1\
+\_0->\
+:: Printing the result\
+\_1->\_*1\
+\_0->\_*0\
+O::*1->1\
+O::*0->0\
+\_->\
 
 # Running a program
 
@@ -215,20 +197,14 @@ Thue and Markov programs may be loaded by the functions (load-thue-program) and 
 
 To run the above given example in Marthue internal format, it's recomended to load it first to a variable:
 
-CL-MARTHUE> (defparameter program1 (load-lisp-marthue 
-#(
-
-((:M) #(("" "Input a binary number:" :O :N)))
-
-((:M) #(("" "" :I :N)))
-
-((:M) #(("" "\_" :N)))
-
-((:M :B) #(("" "\_" :N)))
-
-((:T) #(("0_" "0--") ("1_" "0") ("10--" "01") ("00--" "0--1") ("\_1--" "@")("\_0--" "1") ("\_0" "")))
-
-((:M) #(("\_1" "\_*1")("\_0" "\_*0")("*1" "1" :O) ("*0" "0" :O)("\_" ""))))))
+CL-MARTHUE> (defparameter program1 (load-lisp-marthue\ 
+#(\
+((:M) #(("" "Input a binary number:" :O :N)))\
+((:M) #(("" "" :I :N)))\
+((:M) #(("" "\_" :N)))\
+((:M :B) #(("" "\_" :N)))\
+((:T) #(("0_" "0--") ("1_" "0") ("10--" "01") ("00--" "0--1") ("\_1--" "@")("\_0--" "1") ("\_0" "")))\
+((:M) #(("\_1" "\_*1")("\_0" "\_*0")("*1" "1" :O) ("*0" "0" :O)("\_" ""))))))\
 
 To load a file in Marthue format, use the function (load-marthue-program "/FILE_PATH").
 
