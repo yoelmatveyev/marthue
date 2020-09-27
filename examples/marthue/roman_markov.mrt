@@ -2,7 +2,7 @@
 
  a::
 OC b::->Input series of stars like this: ***  ****  *****\n
- b::
+::
 I::->._
 
 ;; Conversion algorithm
