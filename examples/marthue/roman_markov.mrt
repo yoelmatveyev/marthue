@@ -1,12 +1,14 @@
-;; Convert series of stars to Roman numerals by a Markov algorithm
-
+# Convert series of stars to Roman numerals by a Markov algorithm
  a::
-OC b::->Input series of stars like this: ***  ****  *****\n
- b::
+O::->.Input series of stars like this: ***  ****  *****\n
+::
 I::->._
-
-;; Conversion algorithm
-
+::
+ ->|
+::
+# 2 right spaces below
+|->  
+# Conversion algorithm
 ::
 *->I
 IIIII->V
@@ -22,9 +24,7 @@ CCCC->CD
 DD->M
 DCD->CM
 ->._
-
-;; Printing the result
-
+# Printing the result
 ::
 _M->_*M
 _D->_*D
@@ -41,17 +41,15 @@ O::*L->L
 O::*X->X
 O::*V->V
 O::*I->I
-;; There is a space on the right side below
+# 1 right space below
 O::*-> 
-
+# Try again? 
 ::
 N::_->
-
 ::
 O::_->\nTry again? (y/n)
 ->._
-
 ::
 I::_->
-R a::y->
-R end::n->
+ a::y->
+ end::n->
