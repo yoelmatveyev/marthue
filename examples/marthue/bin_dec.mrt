@@ -1,4 +1,4 @@
-;; Binary decrement
+;; Binary decrement by a Markov algorithm
 
 ::
 ON::->Input a binary number: 
