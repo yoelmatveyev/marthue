@@ -1,5 +1,5 @@
 # Convert series of stars to Roman numerals by a Thue algorithm
-# Yoel matveyev 2020
+# Yoel Matveyev 2020
  a::
 O::->.Input a series of stars\n
 ::
