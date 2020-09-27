@@ -1,4 +1,4 @@
-;; Convert series of stars to Roman numerals
+;; Convert series of stars to Roman numerals by a Markov algorithm
 
  a::
 OC b::->Input series of stars like this: ***  ****  *****\n
