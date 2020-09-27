@@ -33,19 +33,17 @@
 ;; Forward, backward and random substring search
 
 (defun msearch (l1 l2 &optional (dir 1))
+  (let (found p)
   (case dir
     (1 (search l1 l2))
     (-1 (search l1 l2 :from-end t))
-    (otherwise 
-     (let (n a (l (length l1)))
-       (loop for x from 0 to (- (length l2) l) do
-	    (unless (setf n (search l1 l2 :start2 x))
-	      (return))
-	    (when n (push n a)
-		     (setf x n)))
-       (if a
-	   (nth (random (length a)) a)
-	   nil)))))
+    (otherwise
+     (loop for x from 0 to (- (length l2) (length l1)) do
+	  (setf p (search l1 l2 :start2 x))
+	  (if p
+	      (progn (push p found) (setq x p))
+	      (return)))
+     (if found (nth (random (length found)) found) nil)))))
 
 ;; Determing the search direction
 
