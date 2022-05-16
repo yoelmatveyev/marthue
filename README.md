@@ -18,7 +18,7 @@ CL-USER> (asdf:operate 'asdf:load-op 'marthue)
 
 Load three versions of the Roman number converter:
 
-CL-MARTHUE> (defvar roman-thue (load-thue-program "examples/thue/roman.t"))
+CL-MARTHUE> (defparameter roman-thue (load-thue-program "examples/thue/roman.t"))
 
 ROMAN-THUE
 
