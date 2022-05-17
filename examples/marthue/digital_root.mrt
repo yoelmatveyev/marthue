@@ -1,0 +1,31 @@
+# Digital root calculator by a Thue algorithm
+# Written by Keymaker
+# Ported to Marthue by Yoel Matveyev
+::
+O::->.Enter a natural decimal number:
+::
+->..abc.
+T::
+I::b->
+0->
+1->!
+2->!!
+3->!!!
+4->!!!!
+5->!!!!!
+6->!!!!!!
+7->!!!!!!!
+8->!!!!!!!!
+9->!!!!!!!!!
+!!!!!!!!!!->!
+O::a!!!!!!!!!c->9
+O::a!!!!!!!!c->8
+O::a!!!!!!!c->7
+O::a!!!!!!c->6
+O::a!!!!!c->5
+O::a!!!!c->4
+O::a!!!c->3
+O::a!!c->2
+O::a!c->1
+O::ac->0
+O::..->

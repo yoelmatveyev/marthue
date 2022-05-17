@@ -1,0 +1,25 @@
+ Binary increment by a Thue algorithm
+
+::
+ON::->Input a binary number:
+:: Input
+IN::->
+::
+N::->_
+B::
+N::->_
+T:: Thue algorithm for increment
+1_->1++
+0_->1
+01++->10
+11++->1++0
+_0->_
+_1++->10
+::
+->._
+:: Print the result
+_1->_*1
+_0->_*0
+O::*1->1
+O::*0->0
+_->

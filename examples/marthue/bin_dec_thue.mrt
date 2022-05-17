@@ -1,14 +1,14 @@
-# Binary decrement by a Markov algorithm
+ Binary decrement by a Thue algorithm
 
 ::
-ON::->Input a binary number: 
-::
+ON::->Input a binary number:
+:: Input
 IN::->
 ::
 N::->_
 B::
 N::->_
-T::
+T:: Thue algorithm for decrement
 0_->0--
 1_->0
 10--->01
@@ -16,12 +16,6 @@ T::
 _1--->@
 _0--->1
 _0->
-::
-_1->_*1
-_0->_*0
-O::*1->1
-O::*0->0
-_->
 :: Print the result
 _1->_*1
 _0->_*0

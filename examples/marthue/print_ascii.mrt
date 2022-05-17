@@ -1,0 +1,104 @@
+# Print out and destroy all strings of ASCII characters starting with ॐ
+	
+ pr1::
+ॐ->.ॐ𑀅
+::
+ON pr1::𑀅 -> 
+ON pr1::𑀅!->!
+ON pr1::𑀅"->"
+ON pr1::𑀅#->#
+ON pr1::𑀅$->$
+ON pr1::𑀅%->%
+ON pr1::𑀅&->&
+ON pr1::𑀅'->'
+ON pr1::𑀅(->(
+ON pr1::𑀅)->)
+ON pr1::𑀅*->*
+ON pr1::𑀅+->+
+ON pr1::𑀅,->,
+ON pr1::𑀅-->-
+ON pr1::𑀅.->\.
+ON pr1::𑀅/->/
+ON pr1::𑀅0->0
+ON pr1::𑀅1->1
+ON pr1::𑀅2->2
+ON pr1::𑀅3->3
+ON pr1::𑀅4->4
+ON pr1::𑀅5->5
+ON pr1::𑀅6->6
+ON pr1::𑀅7->7
+ON pr1::𑀅8->8
+ON pr1::𑀅9->9
+ON pr1::𑀅:->:
+ON pr1::𑀅<-><
+ON pr1::𑀅=->=
+ON pr1::𑀅>->>
+ON pr1::𑀅?->?
+ON pr1::𑀅@->@
+ON pr1::𑀅A->A
+ON pr1::𑀅B->B
+ON pr1::𑀅C->C
+ON pr1::𑀅D->D
+ON pr1::𑀅E->E
+ON pr1::𑀅F->F
+ON pr1::𑀅G->G
+ON pr1::𑀅H->H
+ON pr1::𑀅I->I
+ON pr1::𑀅J->J
+ON pr1::𑀅K->K
+ON pr1::𑀅L->L
+ON pr1::𑀅M->M
+ON pr1::𑀅N->N
+ON pr1::𑀅O->O
+ON pr1::𑀅P->P
+ON pr1::𑀅Q->Q
+ON pr1::𑀅R->R
+ON pr1::𑀅S->S
+ON pr1::𑀅T->T
+ON pr1::𑀅U->U
+ON pr1::𑀅V->V
+ON pr1::𑀅W->W
+ON pr1::𑀅X->X
+ON pr1::𑀅Y->Y
+ON pr1::𑀅Z->Z
+ON pr1::𑀅[->[
+ON pr1::𑀅\->\
+ON pr1::𑀅]->]
+ON pr1::𑀅^->^
+ON pr1::𑀅_->_
+ON pr1::𑀅`->`
+ON pr1::𑀅a->a
+ON pr1::𑀅b->b
+ON pr1::𑀅c->c
+ON pr1::𑀅d->d
+ON pr1::𑀅e->e
+ON pr1::𑀅f->f
+ON pr1::𑀅g->g
+ON pr1::𑀅h->h
+ON pr1::𑀅i->i
+ON pr1::𑀅j->j
+ON pr1::𑀅k->k
+ON pr1::𑀅l->l
+ON pr1::𑀅m->m
+ON pr1::𑀅n->n
+ON pr1::𑀅o->o
+ON pr1::𑀅p->p
+ON pr1::𑀅q->q
+ON pr1::𑀅r->r
+ON pr1::𑀅s->s
+ON pr1::𑀅t->t
+ON pr1::𑀅u->u
+ON pr1::𑀅v->v
+ON pr1::𑀅w->w
+ON pr1::𑀅x->x
+ON pr1::𑀅y->y
+ON pr1::𑀅z->z
+ON pr1::𑀅{->{
+ON pr1::𑀅|->|
+ON pr1::𑀅}->}
+ON pr1::𑀅~->~
+::
+𑀅->
+ॐ->.
+::
+N pr1::ॐ->ॐ

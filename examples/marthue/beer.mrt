@@ -1,0 +1,69 @@
+#  Thue version of 99 bottles of beer
+#  Laurent Vogel,  http://lvogel.free.fr
+#  for 999 bottles, add one more comma ',' to the last line :-)
+
+# Ported to Mathue by Yoel Matveyev
+
+T::
+_n->_.n
+O::.n->No more
+_b->_.b
+O::.b-> bottle
+_s->_.s
+O::.s->s
+_o->_.o
+O::.o-> of beer
+_w->_.w
+O::.w-> on the wall
+_c->_.c\
+O::.c->,
+_t->_.t\
+O::.t->Take one down, pass it around,
+_d->_.d\
+O::.d->\.\n
+_\->_.\
+O::.\->
+
+_*********,->*********,_9
+O::9->9
+_********,->********,_8
+O::8->8
+_*******,->*******,_7
+O::7->7
+_******,->******,_6
+O::6->6
+_*****,->*****,_5
+O::5->5
+_****,->****,_4
+O::4->4
+_***,->***,_3
+O::3->3
+_**,->**,_2
+O::2->2
+_*,->*,_1
+O::1->1
+_,->,_0
+O::0->0
+
+,_r->_r,
+*_r->_r*
+[_r->[_
+
+***,_m->_r**,
+,**,_m->_r,*,
+,*,_m->_r,,
+,,_m->,_m*********,
+[**,_m*->[_*,*
+[**,_mb->_1bowd\*,bowc*,bodtnb
+[*,_m->[_
+
+_g->_bsowcrbsodtmbsowd\rg
+
+:: Clean up the line
+_->
+r->
+*->
+,->
+g->
+
+[*,,,_mg
