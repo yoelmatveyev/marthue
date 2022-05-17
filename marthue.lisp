@@ -1,6 +1,6 @@
 (in-package :cl-marthue)
 
-;; The main structure that stores the Marthue program and its state 
+;; The main structure that store the Marthue program and its state 
 
 (defstruct marthue-program
   code
@@ -62,7 +62,7 @@
 
 (defun block-step (rules line &key dir rand debug)
   (let*  ((l (length rules))
-	  (n nil) (r (random l)) s1 s2 rule p d c v s)
+	  (n nil) (r (random l)) s1 s2 rule p d c v s dr)
     (if rand
 	   (case (random 2)
 	     (0 (loop for x from r to (+ r l -1) do
@@ -91,11 +91,20 @@
 	(format t "~a" (cadr rule))
 	(setf p nil))
       (when (member :I rule)
+	(if (zerop dir)
+	    (setf dr (1- (* 2 (random 2))))
+	    (setf dr dir))
+	(if (or (and (member :F rule)(member :B rule)) (member :X rule))
+	    (setf dr (1- (* 2 (random 2))))
+	    (if (member :F rule)
+		(setf dr 1)
+		(if (member :B rule)
+		    (setf dr -1))))
 	(setf p
-	      (case dir
+	      (case dr
 		(-1 (concatenate 'string (read-line) p))
 		(1  (concatenate 'string p (read-line))))))
-      (setf line (concatenate 'string s1 p s2)))
+    (setf line (concatenate 'string s1 p s2)))
     (if debug (progn
 		(format t "~%Dir:~a Random:~a Rule:~a" d rand c)
 		(print rule)
@@ -211,7 +220,7 @@
 
 ;; The main engine
 
-(defun marthue-run (pr &key (steps -1) debug fulldebug)
+(defun marthue-run (pr &key (steps -1) debug fulldebug line)
   (let* ((halted (marthue-program-halted pr))
 	 blk mode dir rules (status nil))
     (when halted
@@ -219,6 +228,9 @@
       (when (y-or-n-p)
 	(marthue-reset pr)
 	(format t "Try to run it again!~%")))
+    (if line
+	(setf (marthue-program-line pr) line
+	      (marthue-program-newline pr) line))
     (loop while (and (/= steps 0)(null halted)) do
 	 (loop while (and (/= steps 0)(null status)) do
 	      (setf blk (marthue-program-block pr)
@@ -242,59 +254,70 @@
 
 ;; Convert a Thue program into a Marthue structure
 
-(defun load-thue-program (file)
+(defun load-thue-program (file &key line)
   (let (p r l res (c (make-array 1 :adjustable t)))
     (with-open-file (stream file)
       (setf p (loop for l = (read-line stream nil)
 		 while l
-		 collect l)))
+		 collect (string-trim " " l))))
     (setf p (remove "" p :test #'equal)
 	  p (remove "::=" p)
+	  p (remove "#::=" p :test (lambda (x y) (eql 0 (search x y))))
 	  r (subseq p 0 (- (length p) 2))
 	  l (nth (1- (length p)) p)
 	  r (mapcar (lambda (x)
 		      (let* ((n (search "::=" x))
 			     (s (subseq x (+ n 3)))
 			     (h (list (subseq x 0 n) s)))
-			     (if (equal s ":::") (setf h (append h '(:I))))
-			     (if (and (>= (length s) 1)(equal (subseq s 0 1) "~"))
-				 (setf h (append h '(:O))
-				       (cadr h) (subseq x (+ n 4))))
-				 h))
+			(if (equal s ":::")
+			    (setf h (append h '(:I))
+				  (cadr h) ""))
+			(if (and (>= (length s) 1)(equal (subseq s 0 1) "~"))
+			    (setf h (append h '(:O))
+				  (cadr h) (subseq x (+ n 4))))
+			h))
 		    r))
     (setf
      (aref c 0) (list '(:T) (coerce r 'vector)) 
      res (make-marthue-program)
      (marthue-program-code res) c
-     (marthue-program-line res) l)
+     (marthue-program-line res) (if line line l))
      (marthue-reset res)
     res))
 
 ;; Convert a Markov algorithm into a Marthue structure
 
-(defun load-markov-program (file)
-  (let (p r l res (c (make-array 1 :adjustable t)))
+
+(defun load-markov-program (file &key line)
+  (let (p r l res last (c (make-array 1 :adjustable t)))
     (with-open-file (stream file)
       (setf p (loop for l = (read-line stream nil)
 		 while l
-		 collect l)))
-    (setf p (remove "" p :test #'equal)
+		    collect l)))
+    (setf last (last p)
+	  p (remove "" p :test
+		    (lambda (x y)
+		      (or (eql x y) (eql nil (search "->" y)))))
+	  p (append p last)
 	  r (subseq p 0 (- (length p) 1))
 	  l (nth (1- (length p)) p)
 	  r (mapcar (lambda (x)
 		      (let* (h
 			     (n (search "->" x))
 			     (s (subseq x (+ n 2))))
-			(if (equal (subseq s 0 1) ".")
-			    (setf h (list (subseq x 0 n) (subseq s 1) "."))
+			(if (and
+			     (not (equal s ""))
+			     (equal (subseq s 0 1) "."))
+			    (setf h (list (subseq x 0 n) (subseq s 1) :N))
 			    (setf h (list (subseq x 0 n) s)))
 			h))
 		    r))
+
     (setf
      (aref c 0) (list '(:M) (coerce r 'vector)) 
      res (make-marthue-program)
      (marthue-program-code res) c
-     (marthue-program-line res) l)
+     (marthue-program-line res) (if line line l))
      (marthue-reset res)
      res))
 
@@ -315,10 +338,25 @@
 		      (return))))))
     (reverse pr)))
 
+;; Remove extra spaces before the opcode
+
+(defun remove-extra-spaces (s)
+  (let ((a (search "::" s)))
+    (if a
+	(concatenate 'string
+		     (remove-duplicates
+		      (subseq s 0 a)
+		      :test (lambda (x y)
+			      (and (eql x y)(eql x #\Space))))
+		     (subseq s a))
+	s)))
+      
 ;; Getting label/opcode information from a string
 
 (defun string-opcode (s &key (opcode nil))
-  (let (lbl type (sc (search "::" s)))
+  (let (lbl type sc)
+    (setf s (remove-extra-spaces s)
+	  sc (search "::" s))
     (if sc
       (progn (unless opcode (setf s (subseq s 0 sc)))
       (setf type (subseq s 0 (search " " s))
@@ -349,7 +387,7 @@
       s
       "\-" "-")
      "\>" ">")
-    "\." ".")
+    "\\\." ".")
    "\\\n" (string #\newline)))
 
 ;; Convert a replacement rule to Lisp
@@ -366,21 +404,23 @@
 
 ;; Convert a Marthue algorithm from a file
 
-(defun load-marthue-program (file)
+(defun load-marthue-program (file &key line)
   (let (p l res)
     (with-open-file (stream file)
       (setf p (loop for l = (read-line stream nil)
 		 while l
 		 collect l)))
     (setf l (nth (1- (length p)) p))
-    (if (or (search "::" l)(search "->" l))
+    (if (or (search "::" l)(search "->" l)) 
 	(setf l "")
 	(setf p (subseq p 0 (- (length p) 1))))
     (setf p (split-code
-	    (remove-if-not (lambda (x) (or (search "::" x)(search "->" x))) p) "::" "->")
+	     (remove-if-not (lambda (x)
+			      (and (or (search "::" x)(search "->" x))
+				   (not (eql 0 (search "#::" x))))) p) "::" "->") 
 	  p (mapcar (lambda (x)
 		      (let ((m (string-opcode (car x))))
-		      (list (if m m '(:M))
+			(list (if m m '(:M))
 			    (mapcar (lambda (y)
 				      (let ((z (search "::" y)))
 					(append
@@ -388,10 +428,11 @@
 					 (if (search "->." y) (list :N))
 					 (string-opcode y))))
 				    (cadr x)))))
-		    p))
+		    p)
+	  p (remove nil p :test (lambda (x y) (eql x (cadr y)))))
     (setf res (make-marthue-program)
 	  (marthue-program-code res) p
-	  (marthue-program-line res) l)
+	  (marthue-program-line res) (if line line (if l l "")))
     (marthue-reset res)
     res))
 
