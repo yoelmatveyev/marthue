@@ -132,7 +132,7 @@ Keys:
 
 2. :I, :O or both for input and output. When combined, the replacement string is printed and the left-side original string is replaced by the input.
 
-3. :N ("next") for terminating the computation of the current block and going to the next block. If combined with a label, it means an unconditional jump.
+3. :N ("next") for terminating the computation of the current block and going to the next block. If combined with a label, it means a conditional jump (the substring that trigers it is itself the condition).
 
 4. :R for returning from a function call. When used with a label, if attempts to return to the corresponding block, somewhat similar to Lisp's special operator **return-from**.
 
