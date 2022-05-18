@@ -26,7 +26,7 @@ CL-MARTHUE> (marthue-run roman-thue)
 
 "MDCCIII"
 
-CL-MARTHUE> (defvar roman-markov (load-markov-program "examples/markov/roman.m"))
+CL-MARTHUE> (defparameter roman-markov (load-markov-program "examples/markov/roman.m"))
 
 ROMAN-MARKOV
 
@@ -34,7 +34,7 @@ CL-MARTHUE> (marthue-run roman-markov)
 
 "XVIII"
 
-CL-MARTHUE>  (defvar roman-marthue (load-marthue-program "examples/marthue/roman.mt.lisp"))
+CL-MARTHUE>  (defparameter roman-marthue (load-marthue-program "examples/marthue/roman.mt.lisp"))
 
 ROMAN-MARTHUE
 
