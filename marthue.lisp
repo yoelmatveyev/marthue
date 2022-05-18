@@ -455,36 +455,43 @@
     (marthue-reset st)
     st))
 
+;; Shorthand macros for loading and running programs
+
 (defmacro load-run (program file &key path type line steps debug fulldebug)
-  `(defparameter ,program (case ,type
-    (markov
-     (load-markov-program
-      (concatenate 'string ',(if path path "") "/" ,file ".m") :line ,line))
-    (thue
-     (load-thue-program
-      (concatenate 'string ',(if path path "") "/" ,file ".t") :line ,line))
-    (marthue
-     (load-marthue-program
-      (concatenate 'string ',(if path path "") "/" ,file ".mrt") :line ,line))
-    (otherwise
-     (load-marthue-program
-      (concatenate 'string ',(if path path "") "/" ,file ".mrt") :line ,line))))
-  `(marthue-run ,program :steps ,steps :debug ,debug :fulldebug ,fulldebug :line ,line))
+  `(progn
+     (defparameter ,program
+       (case ,type
+	 (markov
+	  (load-markov-program
+	   (concatenate 'string ',(if path path "") "/" ,file ".m") :line ,line))
+	 (thue
+	  (load-thue-program
+	   (concatenate 'string ',(if path path "") "/" ,file ".t") :line ,line))
+	 (marthue
+	  (load-marthue-program
+	   (concatenate 'string ',(if path path "") "/" ,file ".mrt") :line ,line))
+	 (otherwise
+	  (load-marthue-program
+	   (concatenate 'string ',(if path path "") "/" ,file ".mrt") :line ,line))))
+     (marthue-run ,program :steps ,steps :debug ,debug :fulldebug ,fulldebug :line ,line)))
 
 (defmacro load-program (program file &key path type line)
-  `(defparameter ,program (case ,type
-    (markov
-     (load-markov-program
-      (concatenate 'string ',(if path path "") "/" ,file ".m") :line ,line))
-    (thue
-     (load-thue-program
-      (concatenate 'string ',(if path path "") "/" ,file ".t") :line ,line))
-    (marthue
-     (load-marthue-program
-      (concatenate 'string ',(if path path "") "/" ,file ".mrt") :line ,line))
-    (otherwise
-     (load-marthue-program
-      (concatenate 'string ',(if path path "") "/" ,file ".mrt") :line ,line)))))
+  `(defparameter ,program
+     (case ,type
+       (markov
+	(load-markov-program
+	 (concatenate 'string ',(if path path "") "/" ,file ".m") :line ,line))
+       (thue
+	(load-thue-program
+	 (concatenate 'string ',(if path path "") "/" ,file ".t") :line ,line))
+       (marthue
+	(load-marthue-program
+	 (concatenate 'string ',(if path path "") "/" ,file ".mrt") :line ,line))
+       (otherwise
+	(load-marthue-program
+	 (concatenate 'string ',(if path path "") "/" ,file ".mrt") :line ,line)))))
+
+;; Alias to (marthue-run)
 
  (setf (symbol-function 'run) #'marthue-run) 
 
