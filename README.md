@@ -16,6 +16,8 @@ Load the system:
 
 CL-USER> (asdf:operate 'asdf:load-op 'marthue)
 
+CL-USER> (in-package :cl-marthue)
+
 Load three versions of the Roman number converter:
 
 CL-MARTHUE> (defparameter roman-thue (load-thue-program "examples/thue/roman.t"))
@@ -39,3 +41,11 @@ CL-MARTHUE>  (defparameter roman-marthue (load-marthue-program "examples/marthue
 ROMAN-MARTHUE
 
 CL-MARTHUE> (marthue-run roman-marthue)
+
+Instead of the packaged version, you can just load the file **marthue-no-package.lisp**.
+
+You can also load and run programs by shorthand macros **(load-run)** and **(load-program)**. The function **(marthue-run)** can be called by its alias **(run)**.
+
+CL-MARTHUE> (load-run program1 "program1")
+
+CL-MARTHUE> (run program1)
