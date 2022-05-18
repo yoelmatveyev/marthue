@@ -132,13 +132,15 @@ Keys:
 
 2. :I, :O or both for input and output. When combined, the replacement string is printed and the left-side original string is replaced by the input.
 
-3. :N ("next") for terminating the computation of the current block and going to the next block. If combined with a label, it means a conditional jump (the substring that trigers it is itself the condition).
+3. :N ("next") for terminating the computation of the current block and going to the next block. If combined with a label, it means a conditional jump (the substring that trigers it is itself the condition). An attempt to jump to a non-existent label causes the entire program to stop.
 
-4. :R for returning from a function call. When used with a label, if attempts to return to the corresponding block, somewhat similar to Lisp's special operator **return-from**.
+4. :R for returning from a function call. When used with a label, if attempts to return to the corresponding block, somewhat similar to Lisp's special operator **return-from**. When the stack is empty, attempting to return stops the entire program. If the label is not found, the return attempt is ignored.
 
-5. :C or whatever, just for the sake on convenience and readability, may denote a function call, although the presence of the label itself is sufficient and is interpreted by default as a function call.
+5. :C or whatever, just for the sake on convenience and readability, may denote a function call, although the presence of the label itself is sufficient and is interpreted by default as a function call. An attempt to call a non-existent block stops the entire program.
 
-6. The combination of :R and :C is reserved for possible future extensions and is currently interpreted as :R.
+6. The combination of :R and :N is interpreted as return, except when the label is not found. In this case, the program jumps to the next block.
+
+7. The combination of :R and :C is reserved for possible future extensions and is currently interpreted as :R.
 
 Examples:
 
