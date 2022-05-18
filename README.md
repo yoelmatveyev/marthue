@@ -44,7 +44,7 @@ CL-MARTHUE> (marthue-run roman-marthue)
 
 Instead of the packaged version, you can just load the file **marthue-no-package.lisp**.
 
-You can also load and run programs by shorthand macros **(load-run)** and **(load-program)**. The function **(marthue-run)** can be called by its alias **(run)**.
+You can also load and run programs by the shorthand macros **(load-run)** and **(load-program)**. The function **(marthue-run)** can be called by its alias **(run)**.
 
 CL-MARTHUE> (load-run program1 "program1")
 
