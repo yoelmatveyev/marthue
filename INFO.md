@@ -138,7 +138,7 @@ Keys:
 
 5. :C or whatever, just for the sake on convenience and readability, may denote a function call, although the presence of the label itself is sufficient and is interpreted by default as a function call.
 
-6. The combination of :R and :T is reserved for possible future extensions and is currently interpreted as :R.
+6. The combination of :R and :C is reserved for possible future extensions and is currently interpreted as :R.
 
 Examples:
 
