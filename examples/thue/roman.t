@@ -1,5 +1,6 @@
-#::=Yoel matveyev 2020
-#::=Roman numerals represented by stars, e.g. |>****|
+#::=Yoel Matveyev 2020
+#::=Unary numbers represented by stars and delimiters like |>****|
+#::=are converted non-deterministically into Roman numerals.
 
 |>|::=
 ||::=
