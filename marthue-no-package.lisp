@@ -1,5 +1,3 @@
-(in-package :cl-marthue)
-
 ;; The main structure that stores the Marthue program and its state 
 
 (defstruct marthue-program
