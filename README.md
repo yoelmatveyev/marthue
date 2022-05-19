@@ -2,8 +2,6 @@
 
 This virtual machine impelements a superset of both semi-Thue systems and Markov algorithms extended by input/output, termination and conditional jump mechanisms. A program is organized as a list or array of rule blocks. Each block may be either a sequental Markov-style or a non-deterministic Thue-like algorithm. Normally, termination of each block passes the resulting string to the next one. Calling labeled blocks as fuctions and returning from the fuction calls overwrites the normal order of the operation and adds a fuctional programming flavor to the machine.
 
-A Lispy interpreter of the Thue language, **thue.lisp**, which partly inspired this project, is added for historical purposes, although the Marthue engine includes all its capabilities.
-
 A collection of Thue and Markov programs (mostly not written by me) is added to the repository as examples.
 
 The system is meant interractively in REPL.
@@ -17,6 +15,10 @@ Load the system:
 CL-USER> (asdf:operate 'asdf:load-op 'marthue)
 
 CL-USER> (in-package :cl-marthue)
+
+Or without the package:
+
+CL-USER> (load "marthue.lisp")
 
 Load three versions of the Roman number converter:
 
