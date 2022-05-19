@@ -1,5 +1,3 @@
-(in-package :cl-marthue)
-
 ;; The main structure that stores the Marthue program and its state 
 
 (defstruct marthue-program
@@ -142,19 +140,19 @@
     (setf (marthue-program-code pr) code))
   (when line
     (setf (marthue-program-line pr) line)) 
-    (setf (marthue-program-stack pr) nil
-	  (marthue-program-step pr) 0
-	  (marthue-program-block pr) 0
-
-	  (marthue-program-counter pr) 0
-	  (marthue-program-halted pr ) nil
-	  (marthue-program-dir pr ) (block-dir
-				     (elt (marthue-program-code pr)
-					  (marthue-program-block pr)))
-	  (marthue-program-newline pr ) (marthue-program-line pr)
-	  (marthue-program-mode pr) (block-mode
-				     (elt (marthue-program-code pr)
-					  (marthue-program-block pr))))
+  (setf (marthue-program-stack pr) nil
+	(marthue-program-step pr) 0
+	(marthue-program-block pr) 0
+	(marthue-program-counter pr) 0
+	(marthue-program-halted pr ) nil
+	(marthue-program-dir pr ) (block-dir
+				   (elt (marthue-program-code pr)
+					(marthue-program-block pr)))
+	(marthue-program-newline pr ) (marthue-program-line pr)
+	(marthue-program-mode pr)
+	(block-mode
+	 (elt (marthue-program-code pr)
+	      (marthue-program-block pr))))
     t)
 
 ;; Auxiliary function for termination conditions and jumping between blocks
@@ -186,12 +184,14 @@
 					       (pop (marthue-program-stack pr)))
 					(if (marthue-program-stack pr)
 					    (setf newblock (pop (marthue-program-stack pr)))
-					    (setf newblock blength)))
+					    (unless (find :N status)
+					      (setf newblock blength))))
 				    (return)))
-			     (setf newblock blength))
+			     (unless (find :N status)
+			       (setf newblock blength)))
 			 (if (marthue-program-stack pr)
 			     (setf newblock (pop (marthue-program-stack pr)))
-			     (setf newblock blength))))
+			     (unless (find :N status) (setf newblock blength)))))
 		(let ((l (car (last status))))      
 		  (loop for x from 0 to (1- blength) do
 		       (if (find l (car (elt (marthue-program-code pr) x)) :test #'string=)
@@ -220,15 +220,20 @@
 
 ;; The main engine
 
-(defun marthue-run (pr &key (steps -1) debug fulldebug line)
+(defun marthue-run (pr &key (steps -1) debug fulldebug line reset (warn t))
   (let* ((halted (marthue-program-halted pr))
 	 blk mode dir rules (status nil))
     (unless steps (setf steps -1))
     (when halted
-      (format t "~%Program was terminated. Reset it?")
-      (when (y-or-n-p)
-	(marthue-reset pr)
-	(format t "Try to run it again!~%")))
+      (when warn
+	(format t "~%Program was terminated. Reset it?")
+	(when (y-or-n-p)
+	  (marthue-reset pr)
+	  (format t "Try to run it again!~%")))
+      (unless warn
+	(marthue-reset pr)))
+    (when reset
+      (marthue-reset pr))
     (if line
 	(setf (marthue-program-line pr) line
 	      (marthue-program-newline pr) line))
@@ -282,7 +287,7 @@
      (aref c 0) (list '(:T) (coerce r 'vector)) 
      res (make-marthue-program)
      (marthue-program-code res) c
-     (marthue-program-line res) (if line line l))
+     (marthue-program-line res) (if line line (remove-backslash l)))
      (marthue-reset res)
     res))
 
@@ -318,7 +323,7 @@
      (aref c 0) (list '(:M) (coerce r 'vector)) 
      res (make-marthue-program)
      (marthue-program-code res) c
-     (marthue-program-line res) (if line line l))
+     (marthue-program-line res) (if line line (remove-backslash l)))
      (marthue-reset res)
      res))
 
@@ -380,14 +385,18 @@
       (remove nil (append type (list lbl))))
       nil)))
 
+;; Yes, that's ugly :-)
+
 (defun remove-backslash (s)
   (replace-all
    (replace-all
     (replace-all
      (replace-all
-      s
-      "\-" "-")
-     "\>" ">")
+      (replace-all
+       s
+       "\\-" "-")
+      "\\:" ":")
+     "\\>" ">")
     "\\\." ".")
    "\\\n" (string #\newline)))
 
@@ -433,7 +442,7 @@
 	  p (remove nil p :test (lambda (x y) (eql x (cadr y)))))
     (setf res (make-marthue-program)
 	  (marthue-program-code res) p
-	  (marthue-program-line res) (if line line (if l l "")))
+	  (marthue-program-line res) (if line line (if l (remove-backslash l) "")))
     (marthue-reset res)
     res))
 
@@ -455,43 +464,36 @@
     (marthue-reset st)
     st))
 
-;; Shorthand macros for loading and running programs
-
 (defmacro load-run (program file &key path type line steps debug fulldebug)
-  `(progn
-     (defparameter ,program
-       (case ,type
-	 (markov
-	  (load-markov-program
-	   (concatenate 'string ',(if path path "") "/" ,file ".m") :line ,line))
-	 (thue
-	  (load-thue-program
-	   (concatenate 'string ',(if path path "") "/" ,file ".t") :line ,line))
-	 (marthue
-	  (load-marthue-program
-	   (concatenate 'string ',(if path path "") "/" ,file ".mrt") :line ,line))
-	 (otherwise
-	  (load-marthue-program
-	   (concatenate 'string ',(if path path "") "/" ,file ".mrt") :line ,line))))
-     (marthue-run ,program :steps ,steps :debug ,debug :fulldebug ,fulldebug :line ,line)))
+  `(defparameter ,program (case ,type
+    (markov
+     (load-markov-program
+      (concatenate 'string ',(if path path "") "/" ,file ".m") :line ,line))
+    (thue
+     (load-thue-program
+      (concatenate 'string ',(if path path "") "/" ,file ".t") :line ,line))
+    (marthue
+     (load-marthue-program
+      (concatenate 'string ',(if path path "") "/" ,file ".mrt") :line ,line))
+    (otherwise
+     (load-marthue-program
+      (concatenate 'string ',(if path path "") "/" ,file ".mrt") :line ,line))))
+  `(marthue-run ,program :steps ,steps :debug ,debug :fulldebug ,fulldebug :line ,line))
 
 (defmacro load-program (program file &key path type line)
-  `(defparameter ,program
-     (case ,type
-       (markov
-	(load-markov-program
-	 (concatenate 'string ',(if path path "") "/" ,file ".m") :line ,line))
-       (thue
-	(load-thue-program
-	 (concatenate 'string ',(if path path "") "/" ,file ".t") :line ,line))
-       (marthue
-	(load-marthue-program
-	 (concatenate 'string ',(if path path "") "/" ,file ".mrt") :line ,line))
-       (otherwise
-	(load-marthue-program
-	 (concatenate 'string ',(if path path "") "/" ,file ".mrt") :line ,line)))))
-
-;; Alias to (marthue-run)
+  `(defparameter ,program (case ,type
+    (markov
+     (load-markov-program
+      (concatenate 'string ',(if path path "") "/" ,file ".m") :line ,line))
+    (thue
+     (load-thue-program
+      (concatenate 'string ',(if path path "") "/" ,file ".t") :line ,line))
+    (marthue
+     (load-marthue-program
+      (concatenate 'string ',(if path path "") "/" ,file ".mrt") :line ,line))
+    (otherwise
+     (load-marthue-program
+      (concatenate 'string ',(if path path "") "/" ,file ".mrt") :line ,line)))))
 
  (setf (symbol-function 'run) #'marthue-run) 
 

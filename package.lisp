@@ -16,6 +16,9 @@
 	   marthue-run
 	   load-thue-program
 	   load-markov-program
+	   run
+	   load-run
+	   load-program
 	   ))
 
 (in-package :cl-marthue)
