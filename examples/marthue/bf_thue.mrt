@@ -55,7 +55,7 @@ T::
 
 #------------------------- TEST PROGRAM #2: addition of two input numbers
 
-#::*->,>,[-<+>]<.:101_1100_
+*->,>,[-<+>]<.:101_1100_
 
 #------------------------- TEST PROGRAM #3: idem with oddities
 

@@ -1,7 +1,10 @@
 # A basic calculator supporting addition, subtraction and multiplication of natural numbers
 # Found here: http://huh-muh.blogspot.com/2013/06/blog-post_16.html
+
 # Ported to Marthue by Yoel Matveyev
 
+::
+IO::->.Введите арифметическое выражение (например, 10*2+14*12+7):
 ::
 // Пример: простейший калькулятор
 // (сложение, вычитание, умножение натуральных чисел)

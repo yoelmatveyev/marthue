@@ -2,9 +2,11 @@
 #  Laurent Vogel,  http://lvogel.free.fr
 #  for 999 bottles, add one more comma ',' to the last line :-)
 
+# Deterministic and non-deterministic application of rules yields the same result
+
 # Ported to Mathue by Yoel Matveyev
 
-T::
+::
 _n->_.n
 O::.n->No more
 _b->_.b
