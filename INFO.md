@@ -138,7 +138,7 @@ Keys:
 
 5. :C or whatever, just for the sake on convenience and readability, may denote a function call, although the presence of the label itself is sufficient and is interpreted by default as a function call. An attempt to call a non-existent block stops the entire program.
 
-6. The combination of :R and :N is interpreted as return, except when the label is not found. In this case, the program jumps to the next block.
+6. The combination of :R and :N is interpreted as return, except when the label is not found or the stack is empty. In this case, the program jumps to the next block.
 
 7. The combination of :R and :C is reserved for possible future extensions and is currently interpreted as :R.
 
@@ -167,6 +167,14 @@ Here is a simple example of a series of Markov-like programs, which ask for a st
 All strings in Marthue program that don't contain "::" or "->" are treated as comments. Additionally, comments may be added after "::" in block description lines.
 
 The "::" indicates either a block description or, when followed by "->", or a rule description with additional functionality. In both cases, the substring before "::" is treated as an opcode, optionally followed by a label. The opcode is a string made of the same letters as the internal Lisp format. Block termination may be denoted either as N::[original_string]->[new_string] or as [original_string]->.[new_string]. To use "->.", "::", "->" inside the rules, use backslashes. "\n" denotes a newline inside the rule. 
+
+A label with an empty additional functionality description represened by a space is treated by default as a function call, but treated as a jump if Combined with a termination dot:
+
+\# Call:
+ Label1::a->b
+\# Jump (both variants are equivalent):
+ Label1::a->.b
+ N Label1::a->b
 
 The above-described binary decrement as a file written in Mathue format:
 
